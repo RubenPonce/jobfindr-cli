@@ -1,3 +1,4 @@
+#!/bin/sh
 skillset=$@
 sitesToSearch=('https://boards.greenhouse.io/' 'https://apply.workable.com/' 'https://jobs.lever.co/' 'https://www.ziprecruiter.com/' 'https://www.simplyhired.com/')
 skillText=()
