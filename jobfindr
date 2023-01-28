@@ -1,0 +1,37 @@
+skillset=$@
+sitesToSearch=('https://boards.greenhouse.io/' 'https://apply.workable.com/' 'https://jobs.lever.co/' 'https://www.ziprecruiter.com/' 'https://www.simplyhired.com/')
+skillText=()
+search=""
+usage="$(basename "$0") [-h] [skill | location] -- opens google with a search for job sites that includes your relevant skills
+"
+while getopts ':h:' option; do
+  case "$option" in
+    h) echo "$usage"
+       exit
+       ;;
+     :)
+       echo "$usage" >&2
+       exit 1
+       ;;
+   \?) printf "illegal option: -%s\n" "$OPTARG" >&2
+       echo "$usage" >&2
+       exit 1
+       ;;
+  esac
+done
+
+if [[ -z $skillset ]]
+then
+  echo "$usage"
+  exit 0;
+fi
+for skill in $skillset ; do 
+  skillText+="%20\"$skill\""
+done
+echo "Searching for jobs from..."
+for site in ${sitesToSearch[@]} ; do
+    search="$skillText site:$site*"
+    echo "\n$search"
+    open "http://www.google.com/search?q=$search&as_qdr=d1"
+    sleep 10
+done
